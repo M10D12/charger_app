@@ -54,12 +54,6 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="433dp"
-                android:layout_height="421dp"
-                app:srcCompat="@drawable/battery_full_solid_2_" />
-
         </LinearLayout>
 
 
