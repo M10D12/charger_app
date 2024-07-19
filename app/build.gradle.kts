@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.charger_app"
-        minSdk = 17
+        minSdk = 21
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
