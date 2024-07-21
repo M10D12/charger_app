@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId = "com.example.charger_app"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 21
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

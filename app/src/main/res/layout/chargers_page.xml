@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    tools:context=".ChargerActivity"
     tools:visibility="visible">
 
     <!-- Header Section with Semi-Circle Background -->
@@ -40,10 +39,7 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_charger" />
+
 
         </LinearLayout>
 
@@ -68,23 +64,21 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="Settings"
-            android:src="@drawable/ic_settings" />
+           />
 
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:contentDescription="Add"
-            android:src="@drawable/ic_add" />
+            android:contentDescription="Add"/>
 
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:contentDescription="Profile"
-            android:src="@drawable/ic_profile" />
+            android:contentDescription="Profile"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
