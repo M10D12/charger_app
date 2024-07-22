@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:context=".chargesPageActivity"
+    tools:visibility="visible">
+
+    <!-- Header Section with Semi-Circle Background -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/semi_circle"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </LinearLayout>
+
+    <!-- CardView for Charger Information -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="10dp"
+        android:translationY="-55dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="577dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- User Icon -->
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_perfil" />
+
+            <!-- Username -->
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- Email -->
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:textSize="14sp" />
+
+            <!-- Charging Record Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/charging_record"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Charging record"
+                android:textColor="#FFFF" />
+
+            <!-- Language Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/language"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Language"
+                android:textColor="#FFF" />
+
+            <!-- Change Password Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/change_password"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Change password"
+                android:textColor="#FFF" />
+
+            <!-- Questions Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/questions"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Questions"
+                android:textColor="#FFF" />
+
+            <!-- Sign Out Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/sign_out"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:padding="16dp"
+
+                android:text="Sign out"
+                android:textColor="#FFF"
+                android:drawableLeft="@drawable/sign_out" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Bottom Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="Chargers"
+            app:srcCompat="@drawable/bi__plugin"
+            app:tint="#000000" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_button_background"
+            android:layout_marginRight="150px"
+            android:layout_marginLeft="150px"
+            android:contentDescription="Add"
+            app:srcCompat="@drawable/ic_plus"
+            android:gravity="center"
+            app:tint="#FFFF" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="Profile"
+            app:srcCompat="@drawable/ic_perfil"
+            app:tint="#000000" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

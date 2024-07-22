@@ -65,15 +65,17 @@
                 android:padding="12dp"
                 android:textColorHint="#888" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAddDevice"
                 android:layout_width="330px"
                 android:layout_height="150px"
                 android:background="@drawable/round_button_background"
                 android:contentDescription="AddButton"
                 android:text="Adicionar"
+                android:textColor="#FFF"
+
                 android:gravity="center"
-                app:tint="#FFFF" />
+                />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
@@ -118,4 +120,5 @@
             app:srcCompat="@drawable/ic_perfil"
             app:tint="#000000" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

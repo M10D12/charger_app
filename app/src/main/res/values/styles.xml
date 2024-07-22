@@ -4,6 +4,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="buttonStyle">@style/loginButton</item>
+        <item name="android:buttonStyle">@style/loginButton</item>
+
+    </style>
+
+    <style name="loginButton">
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="parent">
@@ -49,8 +57,4 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="loginButton">
-        <item name="android:background">@drawable/button_background</item>
-        <item name="android:textColor">@android:color/white</item>
-    </style>
 </resources>

@@ -62,6 +62,27 @@ public class UserDatabaseManager extends SQLiteOpenHelper {
         db.close();
         return id;
     }
+    public User getUserDetails(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_USERS,
+                new String[]{COLUMN_USERNAME, COLUMN_EMAIL},
+                COLUMN_ID + "=?",
+                new String[]{String.valueOf(userId)},
+                null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            String username = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME));
+            String email = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EMAIL));
+            cursor.close();
+            return new User(username, email);
+        }
+
+        if (cursor != null) {
+            cursor.close();
+        }
+        return null;
+    }
+
 
     public int checkUser(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();

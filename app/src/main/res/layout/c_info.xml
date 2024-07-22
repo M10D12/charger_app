@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:context=".chargesPageActivity"
+    tools:visibility="visible">
+
+    <!-- Header Section with Semi-Circle Background -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/semi_circle"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </LinearLayout>
+
+    <!-- Main Card -->
+    <LinearLayout
+        android:id="@+id/main_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:layout_margin="16dp"
+        android:translationY="-55dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="8dp"
+        android:padding="16dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header">
+
+
+
+        <!-- Circle with Power Information -->
+        <RelativeLayout
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/circle_background"
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/power"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="3.9 kW"
+                    android:textColor="#00FF00"
+                    android:textSize="24sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/voltage_current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="16/27 A  240 V"
+                    android:textColor="#00FF00"
+                    android:textSize="16sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="12 minutos"
+                    android:textColor="#00FF00"
+                    android:textSize="16sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/energy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="5.1 kWh"
+                    android:textColor="#00FF00"
+                    android:textSize="16sp"
+                    android:gravity="center"/>
+
+                <ImageView
+                    android:id="@+id/icon_bolt"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_bolt"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Buttons Below Circle -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button1"
+                android:layout_width="500px"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="25dp"
+                android:text="Iniciar carregamento"
+                android:background="@drawable/button_background"
+                android:textColor="@android:color/white"
+                />
+
+
+        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button2"
+            android:layout_width="500px"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20px"
+            android:text="Parar carregamento"
+            android:background="@drawable/button_background"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center" />
+
+        <!-- Icon and Text Below Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/charge_station"
+                app:tint="#00A5FF"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IDENTIFIER"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Bottom Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="Chargers"
+            app:srcCompat="@drawable/bi__plugin"
+            app:tint="#000000" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_button_background"
+            android:layout_marginEnd="150px"
+            android:layout_marginStart="150px"
+            android:contentDescription="Add"
+            app:srcCompat="@drawable/ic_plus"
+            android:gravity="center"
+            app:tint="#FFFF" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="Profile"
+            app:srcCompat="@drawable/ic_perfil"
+            app:tint="#000000" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

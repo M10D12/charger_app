@@ -88,7 +88,7 @@
                 android:textColor="@color/link_color"
                 android:textSize="14sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnLogin"
                 style="@style/loginButton"
                 android:layout_width="match_parent"
