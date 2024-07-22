@@ -34,10 +34,11 @@ public class LoginActivity extends AppCompatActivity {
                 String username = etUsername.getText().toString().trim();
                 String password = etPassword.getText().toString().trim();
 
-                if (userDatabaseManager.checkUser(username, password)) {
+                int userId = userDatabaseManager.checkUser(username, password);
+                if (userId > 0) {
                     Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                    // Navigate to main activity
-                    Intent intent1=new Intent(LoginActivity.this,chargesPage.class);
+                    SessionManager.getInstance().setUserId(userId);
+                    Intent intent1 = new Intent(LoginActivity.this, chargesPageActivity.class);
                     startActivity(intent1);
                 } else {
                     Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();

@@ -4,24 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
-    tools:context=".chargesPageActivity"
-    tools:visibility="visible">
+    tools:context=".AddChargerActivity">
 
     <!-- Header Section with Semi-Circle Background -->
     <LinearLayout
         android:id="@+id/header"
-
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:background="@drawable/semi_circle"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- CardView for Charger Information -->
     <androidx.cardview.widget.CardView
@@ -42,63 +37,46 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/wifi"
-                    android:contentDescription="WIFI"
-                    android:backgroundTint="#FFF"
-                    android:layout_marginRight="35dp"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/charge_station"
-                    app:tint="#00A5FF"
-                    />
+                android:text="Adicionar Dispositivo"
+                android:textColor="#000000"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="IDENTIFIER"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+            <!-- Device Name EditText -->
+            <EditText
+                android:id="@+id/etDeviceName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Device Name"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:textColorHint="#888" />
 
-                <ImageButton
-                    android:layout_width="200px"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="35dp"
-                    android:contentDescription="Settings"
-                    android:backgroundTint="#FFF"
-                    android:src="@drawable/settings" />
+            <!-- MAC Address EditText -->
+            <EditText
+                android:id="@+id/etMacAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="MAC Address"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:textColorHint="#888" />
 
-
-            </LinearLayout>
-            <ImageView
-                android:layout_width="350dp"
-                android:layout_height="350dp"
-                android:src="@drawable/image"
-
-                />
-            <ImageButton
-                android:layout_width="250px"
+            <Button
+                android:id="@+id/btnAddDevice"
+                android:layout_width="330px"
                 android:layout_height="150px"
                 android:background="@drawable/round_button_background"
-                android:contentDescription="battery"
-                app:srcCompat="@drawable/charger_battery"
+                android:contentDescription="AddButton"
+                android:text="Adicionar"
                 android:gravity="center"
-                app:tint="#FFFF"/>
+                app:tint="#FFFF" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
-    <!-- Bottom Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -111,7 +89,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
 
-    <ImageButton
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -140,5 +118,4 @@
             app:srcCompat="@drawable/ic_perfil"
             app:tint="#000000" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

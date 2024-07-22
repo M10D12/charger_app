@@ -36,14 +36,16 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = etPassword.getText().toString().trim();
                 String email = etEmail.getText().toString().trim();
 
-                long result = userDatabaseManager.registerUser(username, password);
-                if (result > 0) {
-                    Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                if (validateInputs(username, password, email)) {
+                    long result = userDatabaseManager.registerUser(username, password, email);
+                    if (result > 0) {
+                        Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -78,4 +80,5 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         return true;
-    }}
+    }
+}
