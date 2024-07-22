@@ -56,7 +56,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
         // Inserting Row
         long res = db.insert(TABLE_USERS, null, values);
         // Closing database connection
-        db.close();
+        //db.close();
         return res;
     }
 
@@ -82,7 +82,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
         int cursorCount = cursor.getCount();
         cursor.close();
-        db.close();
+        //db.close();
 
         if (cursorCount > 0) {
             return true;

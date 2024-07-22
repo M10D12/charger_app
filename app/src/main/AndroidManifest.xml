@@ -20,6 +20,9 @@
         <activity android:name=".RegisterActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".chargesPage"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

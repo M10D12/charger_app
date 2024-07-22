@@ -1,17 +1,17 @@
+// UserDatabaseManager.java
 package com.example.charger_app;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
-class userDatabaseManager {
-
+public class UserDatabaseManager {
     private DatabaseHelper dbHelper;
     private SQLiteDatabase database;
 
-    public userDatabaseManager(Context context) {
+    public UserDatabaseManager(Context context) {
         dbHelper = new DatabaseHelper(context);
     }
 
@@ -23,21 +23,31 @@ class userDatabaseManager {
         dbHelper.close();
     }
 
-    public long addUser(String username, String email, String password) {
+    public long registerUser(String username, String password) {
+        open(); // Ensure the database is open before performing operations
+
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.COLUMN_USERNAME, username);
-        values.put(DatabaseHelper.COLUMN_EMAIL, email);
         values.put(DatabaseHelper.COLUMN_PASSWORD, password);
-        return database.insert(DatabaseHelper.TABLE_USERS, null, values);
+
+        long result = database.insert(DatabaseHelper.TABLE_USERS, null, values);
+
+        close(); // Close the database after operations
+        return result;
     }
 
     public boolean checkUser(String username, String password) {
+        open(); // Ensure the database is open before performing operations
+
         String[] columns = { DatabaseHelper.COLUMN_ID };
-        String selection = DatabaseHelper.COLUMN_USERNAME + " = ?" + " AND " + DatabaseHelper.COLUMN_PASSWORD + " = ?";
+        String selection = DatabaseHelper.COLUMN_USERNAME + " = ? AND " + DatabaseHelper.COLUMN_PASSWORD + " = ?";
         String[] selectionArgs = { username, password };
+
         Cursor cursor = database.query(DatabaseHelper.TABLE_USERS, columns, selection, selectionArgs, null, null, null);
         int cursorCount = cursor.getCount();
         cursor.close();
+        close(); // Close the database after operations
+
         return cursorCount > 0;
     }
 }

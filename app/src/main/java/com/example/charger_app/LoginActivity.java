@@ -1,3 +1,4 @@
+// LoginActivity.java
 package com.example.charger_app;
 
 import android.content.Intent;
@@ -10,35 +11,36 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
-
-    EditText etUsername, etPassword;
-    Button btnLogin;
-    TextView tvSignUp;
-    DatabaseHelper db;
+    private EditText etUsername, etPassword;
+    private Button btnLogin;
+    private TextView tvSignUp;
+    private UserDatabaseManager userDatabaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        db = new DatabaseHelper(this);
-
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvSignUp = findViewById(R.id.tvSignUp);
 
+        userDatabaseManager = new UserDatabaseManager(this);
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user = etUsername.getText().toString().trim();
-                String pass = etPassword.getText().toString().trim();
-                Boolean res = db.checkUser(user, pass);
-                if (res) {
-                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                    // Navigate to MainActivity or another activity
+                String username = etUsername.getText().toString().trim();
+                String password = etPassword.getText().toString().trim();
+
+                if (userDatabaseManager.checkUser(username, password)) {
+                    Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                    // Navigate to main activity
+                    Intent intent1=new Intent(LoginActivity.this,chargesPage.class);
+                    startActivity(intent1);
                 } else {
-                    Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -46,7 +48,9 @@ public class LoginActivity extends AppCompatActivity {
         tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

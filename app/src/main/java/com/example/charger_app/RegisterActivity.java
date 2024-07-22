@@ -1,3 +1,4 @@
+// RegisterActivity.java
 package com.example.charger_app;
 
 import android.content.Intent;
@@ -10,37 +11,39 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterActivity extends AppCompatActivity {
-
-    EditText etUsername, etEmail, etPassword;
-    Button btnRegister;
-    TextView tvLogin;
-    DatabaseHelper db;
+    private EditText etUsername, etPassword, etEmail;
+    private Button btnRegister;
+    private TextView tvLogin;
+    private UserDatabaseManager userDatabaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        db = new DatabaseHelper(this);
-
         etUsername = findViewById(R.id.etUsername);
-        etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
+        etEmail = findViewById(R.id.etEmail);
         btnRegister = findViewById(R.id.btnRegister);
         tvLogin = findViewById(R.id.tvLogin);
+
+        userDatabaseManager = new UserDatabaseManager(this);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user = etUsername.getText().toString().trim();
+                String username = etUsername.getText().toString().trim();
+                String password = etPassword.getText().toString().trim();
                 String email = etEmail.getText().toString().trim();
-                String pass = etPassword.getText().toString().trim();
-                long val = db.addUser(user, email, pass);
-                if (val > 0) {
-                    Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+
+                long result = userDatabaseManager.registerUser(username, password);
+                if (result > 0) {
+                    Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Registration Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -48,8 +51,31 @@ public class RegisterActivity extends AppCompatActivity {
         tvLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
-}
+
+    private boolean validateInputs(String username, String password, String email) {
+        if (username.isEmpty()) {
+            etUsername.setError("Username is required");
+            etUsername.requestFocus();
+            return false;
+        }
+
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            etEmail.setError("Enter a valid email address");
+            etEmail.requestFocus();
+            return false;
+        }
+
+        if (password.isEmpty() || password.length() < 6) {
+            etPassword.setError("Password must be at least 6 characters long");
+            etPassword.requestFocus();
+            return false;
+        }
+
+        return true;
+    }}
