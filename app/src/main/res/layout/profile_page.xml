@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    tools:context=".chargesPageActivity"
+    tools:context=".Profile_Ativity"
     tools:visibility="visible">
 
     <!-- Header Section with Semi-Circle Background -->
@@ -149,14 +149,16 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
+            android:id="@+id/btnChargers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:contentDescription="Chargers"
+            android:contentDescription="@string/chargers_page"
             app:srcCompat="@drawable/bi__plugin"
             app:tint="#000000" />
 
         <ImageButton
+            android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/round_button_background"
@@ -168,6 +170,7 @@
             app:tint="#FFFF" />
 
         <ImageButton
+            android:id="@+id/btnProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"

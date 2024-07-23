@@ -1,13 +1,17 @@
 package com.example.charger_app;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class chargesPageActivity extends AppCompatActivity {
+public class Profile_Ativity extends AppCompatActivity {
     private TextView usernameTextView;
     private TextView emailTextView;
     private UserDatabaseManager userDatabaseManager;
+    private ImageButton btnChargers, btnAdd, btnProfile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,5 +35,20 @@ public class chargesPageActivity extends AppCompatActivity {
             usernameTextView.setText(loggedUser.getUsername());
             emailTextView.setText(loggedUser.getEmail());
         }
+
+        btnChargers.setOnClickListener(v -> {
+            Intent intent = new Intent(Profile_Ativity.this, chargesPage.class);
+            startActivity(intent);
+        });
+
+        btnAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(Profile_Ativity.this, AddChargerActivity.class);
+            startActivity(intent);
+        });
+
+        btnProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(Profile_Ativity.this, Profile_Ativity.class);
+            startActivity(intent);
+        });
     }
 }

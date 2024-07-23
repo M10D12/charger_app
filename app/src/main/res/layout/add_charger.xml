@@ -45,40 +45,52 @@
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
-            <!-- Device Name EditText -->
-            <EditText
-                android:id="@+id/etDeviceName"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Escolha o tipo de conexão"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:layout_marginBottom="40dp"
+                android:textStyle="normal" />
+
+            <!-- Buttons for Connection -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Device Name"
-                android:layout_marginTop="16dp"
-                android:padding="12dp"
-                android:textColorHint="#888" />
-
-            <!-- MAC Address EditText -->
-            <EditText
-                android:id="@+id/etMacAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="MAC Address"
-                android:layout_marginTop="16dp"
-                android:padding="12dp"
-                android:textColorHint="#888" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnAddDevice"
-                android:layout_width="330px"
-                android:layout_height="150px"
-                android:background="@drawable/round_button_background"
-                android:contentDescription="AddButton"
-                android:text="Adicionar"
-                android:textColor="#FFF"
-
+                android:orientation="horizontal"
                 android:gravity="center"
-                />
+                android:layout_marginTop="16dp">
+
+                <ImageButton
+                    android:id="@+id/btnConnectBluetooth"
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:layout_weight="1"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/round_button_background"
+                    android:src="@drawable/ic_bluetooth"
+                    android:contentDescription="Connect via Bluetooth"
+                    android:scaleType="centerInside"
+                    android:padding="16dp" />
+
+                <ImageButton
+                    android:id="@+id/btnConnectWifi"
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:layout_weight="1"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/round_button_background"
+                    android:src="@drawable/wifi_white"
+                    android:contentDescription="Connect via Wi-Fi"
+                    android:scaleType="centerInside"
+                    android:padding="16dp" />
+            </LinearLayout>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <!-- Bottom Navigation Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,17 +102,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-
         <ImageButton
+            android:id="@+id/btnChargers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:background="@null"
-            android:contentDescription="Chargers"
+            android:contentDescription="@string/chargers_page"
             app:srcCompat="@drawable/bi__plugin"
             app:tint="#000000" />
 
         <ImageButton
+            android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/round_button_background"
@@ -111,8 +123,8 @@
             android:gravity="center"
             app:tint="#FFFF" />
 
-
         <ImageButton
+            android:id="@+id/btnProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -120,5 +132,4 @@
             app:srcCompat="@drawable/ic_perfil"
             app:tint="#000000" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
