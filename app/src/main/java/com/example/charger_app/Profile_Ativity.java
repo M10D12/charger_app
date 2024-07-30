@@ -7,34 +7,36 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Profile_Ativity extends AppCompatActivity {
-    private TextView usernameTextView;
+    private TextView nameTextView;
     private TextView emailTextView;
     private UserDatabaseManager userDatabaseManager;
     private ImageButton btnChargers, btnAdd, btnProfile;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_page);
-        // Obter as referências dos TextView
-        usernameTextView = findViewById(R.id.username);
+
+        nameTextView = findViewById(R.id.username);
         emailTextView = findViewById(R.id.email);
 
-        // Inicializar o UserDatabaseManager
         userDatabaseManager = new UserDatabaseManager(this);
 
-        // Obter o ID do usuário logado da SessionManager
         int userId = SessionManager.getInstance().getUserId();
 
-        // Obter os detalhes do usuário do banco de dados
-        User loggedUser = userDatabaseManager.getUserDetails(userId);
+        userDatabaseManager.getUserDetails(userId, new UserDatabaseManager.GetUserDetailsCallback() {
+            @Override
+            public void onGetUserDetailsCompleted(User loggedUser) {
+                if (loggedUser != null) {
+                    nameTextView.setText(loggedUser.getName());
+                    emailTextView.setText(loggedUser.getEmail());
+                }
+            }
+        });
 
-        // Definir o texto dos TextView
-        if (loggedUser != null) {
-            usernameTextView.setText(loggedUser.getUsername());
-            emailTextView.setText(loggedUser.getEmail());
-        }
+        btnChargers = findViewById(R.id.btnChargers);
+        btnAdd = findViewById(R.id.btnAdd);
+        btnProfile = findViewById(R.id.btnProfile);
 
         btnChargers.setOnClickListener(v -> {
             Intent intent = new Intent(Profile_Ativity.this, chargesPage.class);

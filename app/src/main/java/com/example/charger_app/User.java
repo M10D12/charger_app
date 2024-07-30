@@ -1,19 +1,31 @@
 package com.example.charger_app;
 
 public class User {
-    private String username;
+    private int id;
+    private String name;
     private String email;
+    private String password;
 
-    public User(String username, String email) {
-        this.username = username;
+    public User(int id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
         this.email = email;
+        this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

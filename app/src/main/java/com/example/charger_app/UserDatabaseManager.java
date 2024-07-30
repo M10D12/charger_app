@@ -1,116 +1,178 @@
-// UserDatabaseManager.java
 package com.example.charger_app;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
-public class UserDatabaseManager extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "ChargerApp.db";
-    private static final int DATABASE_VERSION = 1;
-    private static final String TABLE_USERS = "users";
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_USERNAME = "username";
-    private static final String COLUMN_PASSWORD = "password";
-    private static final String COLUMN_EMAIL = "email";
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-    private static final String TABLE_DEVICES = "devices";
-    private static final String COLUMN_DEVICE_ID = "device_id";
-    private static final String COLUMN_USER_ID = "user_id";
-    private static final String COLUMN_DEVICE_NAME = "device_name";
-    private static final String COLUMN_MAC_ADDRESS = "mac_address";
+public class UserDatabaseManager {
+
+    private static final String TAG = "UserDatabaseManager";
+    private static final String URL = "jdbc:mysql://10.3.0.96:3306/charger_app";
+    private static final String USER = "admin";
+    private static final String PASSWORD = "voleibol9A";
+    private final ExecutorService executorService;
 
     public UserDatabaseManager(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        executorService = Executors.newFixedThreadPool(2);
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COLUMN_USERNAME + " TEXT,"
-                + COLUMN_PASSWORD + " TEXT,"
-                + COLUMN_EMAIL + " TEXT" + ")";
-        db.execSQL(CREATE_USERS_TABLE);
+    public void checkUser(String name, String password, CheckUserCallback callback) {
+        executorService.execute(() -> {
+            Connection connection = null;
+            try {
+                Log.e(TAG, "Connecting to database for user check...");
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                Log.e(TAG, "Connected to database");
 
-        String CREATE_DEVICES_TABLE = "CREATE TABLE " + TABLE_DEVICES + "("
-                + COLUMN_DEVICE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COLUMN_USER_ID + " INTEGER,"
-                + COLUMN_DEVICE_NAME + " TEXT,"
-                + COLUMN_MAC_ADDRESS + " TEXT,"
-                + "FOREIGN KEY(" + COLUMN_USER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_ID + ")" + ")";
-        db.execSQL(CREATE_DEVICES_TABLE);
+                String query = "SELECT id, name, email, password FROM users WHERE name = ? AND password = ?";
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, name);
+                statement.setString(2, password);
+                Log.e(TAG, "Executing query: " + statement.toString());
+                ResultSet resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    String userName = resultSet.getString("name");
+                    String userEmail = resultSet.getString("email");
+                    String userPassword = resultSet.getString("password");
+                    Log.e(TAG, "User found: " + userName + ", " + userEmail);
+                    resultSet.close();
+                    statement.close();
+                    callback.onCheckUserCompleted(new User(id, userName, userEmail, userPassword));
+                } else {
+                    Log.e(TAG, "User not found with provided credentials");
+                    callback.onCheckUserCompleted(null);
+                }
+
+                resultSet.close();
+                statement.close();
+            } catch (Exception e) {
+                Log.e(TAG, "Error connecting to database: " + e.getMessage(), e);
+                callback.onCheckUserCompleted(null);
+            } finally {
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error closing connection: " + e.getMessage(), e);
+                    }
+                }
+            }
+        });
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DEVICES);
-        onCreate(db);
+    public void registerUser(String email, String name, String password, RegisterUserCallback callback) {
+        executorService.execute(() -> {
+            Connection connection = null;
+            try {
+                Log.e(TAG, "Connecting to database for user registration...");
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+
+                String query = "INSERT INTO users (email, name, password) VALUES (?, ?, ?)";
+                PreparedStatement statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+                statement.setString(1, email);
+                statement.setString(2, name);
+                statement.setString(3, password);
+                Log.e(TAG, "Executing query: " + statement.toString());
+                int affectedRows = statement.executeUpdate();
+
+                if (affectedRows > 0) {
+                    ResultSet generatedKeys = statement.getGeneratedKeys();
+                    if (generatedKeys.next()) {
+                        int id = generatedKeys.getInt(1);
+                        generatedKeys.close();
+                        statement.close();
+                        Log.e(TAG, "User registered with ID: " + id);
+                        callback.onRegisterUserCompleted(new User(id, name, email, password));
+                    } else {
+                        Log.e(TAG, "Failed to obtain generated key");
+                        callback.onRegisterUserCompleted(null);
+                    }
+                } else {
+                    Log.e(TAG, "No rows affected");
+                    callback.onRegisterUserCompleted(null);
+                }
+
+                statement.close();
+            } catch (Exception e) {
+                Log.e(TAG, "Error registering user: " + e.getMessage(), e);
+                callback.onRegisterUserCompleted(null);
+            } finally {
+                if (connection != null) {
+                    try {
+                        connection.close();
+                        Log.e(TAG, "Database connection closed");
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error closing connection: " + e.getMessage(), e);
+                    }
+                }
+            }
+        });
     }
 
-    public long registerUser(String username, String password, String email) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_USERNAME, username);
-        values.put(COLUMN_PASSWORD, password);
-        values.put(COLUMN_EMAIL, email);
+    public void getUserDetails(int userId, GetUserDetailsCallback callback) {
+        executorService.execute(() -> {
+            Connection connection = null;
+            try {
+                Log.e(TAG, "Connecting to database for getting user details...");
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
 
-        long id = db.insert(TABLE_USERS, null, values);
-        db.close();
-        return id;
-    }
-    public User getUserDetails(int userId) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_USERS,
-                new String[]{COLUMN_USERNAME, COLUMN_EMAIL},
-                COLUMN_ID + "=?",
-                new String[]{String.valueOf(userId)},
-                null, null, null);
+                String query = "SELECT id, name, email, password FROM users WHERE id = ?";
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setInt(1, userId);
+                Log.e(TAG, "Executing query: " + statement.toString());
+                ResultSet resultSet = statement.executeQuery();
 
-        if (cursor != null && cursor.moveToFirst()) {
-            String username = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME));
-            String email = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EMAIL));
-            cursor.close();
-            return new User(username, email);
-        }
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    String name = resultSet.getString("name");
+                    String email = resultSet.getString("email");
+                    String password = resultSet.getString("password");
+                    Log.e(TAG, "User details retrieved for ID: " + id);
+                    resultSet.close();
+                    statement.close();
+                    callback.onGetUserDetailsCompleted(new User(id, name, email, password));
+                } else {
+                    Log.e(TAG, "User not found for ID: " + userId);
+                    callback.onGetUserDetailsCompleted(null);
+                }
 
-        if (cursor != null) {
-            cursor.close();
-        }
-        return null;
-    }
-
-
-    public int checkUser(String username, String password) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_USERS,
-                new String[]{COLUMN_ID},
-                COLUMN_USERNAME + "=? AND " + COLUMN_PASSWORD + "=?",
-                new String[]{username, password},
-                null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            int userId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID));
-            cursor.close();
-            return userId;
-        }
-        if (cursor != null) {
-            cursor.close();
-        }
-        return -1;
+                resultSet.close();
+                statement.close();
+            } catch (Exception e) {
+                Log.e(TAG, "Error getting user details: " + e.getMessage(), e);
+                callback.onGetUserDetailsCompleted(null);
+            } finally {
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error closing connection: " + e.getMessage(), e);
+                    }
+                }
+            }
+        });
     }
 
-    public long addDevice(int userId, String deviceName, String macAddress) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_USER_ID, userId);
-        values.put(COLUMN_DEVICE_NAME, deviceName);
-        values.put(COLUMN_MAC_ADDRESS, macAddress);
+    public interface CheckUserCallback {
+        void onCheckUserCompleted(User user);
+    }
 
-        long id = db.insert(TABLE_DEVICES, null, values);
-        db.close();
-        return id;
+    public interface RegisterUserCallback {
+        void onRegisterUserCompleted(User user);
+    }
+
+    public interface GetUserDetailsCallback {
+        void onGetUserDetailsCompleted(User user);
     }
 }

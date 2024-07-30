@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.charger_app"
-        minSdk = 21
-        targetSdk = 34
+        minSdk = 31
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -47,4 +47,5 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.mssql.jdbc)
 }
